@@ -1,8 +1,7 @@
-import React from 'react'
 import ReactDOM from 'react-dom'
-import { Main } from './views'
+import { main } from './views'
 
 ReactDOM.render(
-  <Main />,
+  main,
   document.getElementById('root')
 );

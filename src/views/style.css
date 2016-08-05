@@ -7,6 +7,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background-color: black;
 }
 
 
@@ -15,9 +16,10 @@ button, svg {
 }
 
 svg text {
-  font-size: 90px;
   font-family: "Fira Code";
   font-weight: bold;
-  stroke: gray;
+  text-transform: uppercase;
+  stroke: black;
   stroke-width: 2px;
+  fill: gray;
 }
