@@ -30,6 +30,9 @@ export class Carousel extends React.Component {
   componentDidMount () {
     this.runCarousel()
   }
+  componentWillUnmount () {
+      window.clearTimeout(this.timeout)
+  }
   runCarousel () {
     const { images, time } = this.props
     const { index } = this.state
@@ -39,7 +42,7 @@ export class Carousel extends React.Component {
       })
     }
 
-    window.setTimeout(() => { this.runCarousel() }, time)
+    this.timeout = window.setTimeout(() => { this.runCarousel() }, time)
   }
   render () {
     const { images } = this.props

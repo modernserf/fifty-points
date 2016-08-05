@@ -7,7 +7,7 @@ import serra4 from "../../img/serra-4.jpg"
 
 const images = [serra1, serra2, serra3, serra4]
 
-class Main extends React.Component {
+class Serra extends React.Component {
   render () {
     return (
       <Carousel images={images} time={5000} />
@@ -24,7 +24,7 @@ const frontRow = `
 `
 
 export default {
-  component: Main,
+  component: Serra,
   frontRow,
   notes
 }

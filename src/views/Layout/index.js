@@ -26,7 +26,7 @@ export class Layout extends React.Component {
   componentDidMount () {
     this.logNotes()
   }
-  componentWillUpdate () {
+  componentDidUpdate () {
     this.logNotes()
   }
   logNotes () {

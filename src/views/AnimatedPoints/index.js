@@ -25,6 +25,9 @@ export class AnimatedPoints extends React.Component {
   componentDidMount () {
     this.props.onEnd()
   }
+  componentWillUnmount () {
+    window.cancelAnimationFrame(this.timeout)
+  }
   componentWillReceiveProps (nextProps) {
     if (nextProps.points !== this.props.points) {
       this.setState({
@@ -62,7 +65,7 @@ export class AnimatedPoints extends React.Component {
       currentPoints: p,
     })
 
-    window.requestAnimationFrame(() => this.interpolatePoints())
+    this.timeout = window.requestAnimationFrame(() => this.interpolatePoints())
   }
   render () {
     const { currentPoints } = this.state
