@@ -1,7 +1,8 @@
 {
-  "name": "fifty-point",
+  "name": "fifty-points",
   "version": "0.0.1",
   "private": true,
+  "homepage": "http://justinfalcone.com/fifty-points",
   "devDependencies": {
     "babel-eslint": "^6.1.2",
     "eslint": "^3.2.2",
