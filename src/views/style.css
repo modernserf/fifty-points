@@ -10,16 +10,6 @@ body {
   background-color: black;
 }
 
-
-button, svg {
+svg, canvas {
   display: block;
-}
-
-svg text {
-  font-family: "Fira Code";
-  font-weight: bold;
-  text-transform: uppercase;
-  stroke: black;
-  stroke-width: 2px;
-  fill: gray;
 }
