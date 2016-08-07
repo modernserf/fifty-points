@@ -22,12 +22,33 @@ const S = StyleSheet.create({
   }
 })
 
+const backKey = 33
+const fwdKey = 34
+
 export class Layout extends React.Component {
+  constructor() {
+    super()
+    this.onNext = this.onNext.bind(this)
+  }
+  onNext (e) {
+    console.log("onNext")
+    const { goBack, goForward } = this.props.route
+    const { location } = this.props
+    if (e.keyCode === backKey) {
+      goBack(location)
+    } else if (e.keyCode === fwdKey) {
+      goForward(location)
+    }
+  }
   componentDidMount () {
+    window.addEventListener("keydown",this.onNext)
     this.logNotes()
   }
   componentDidUpdate () {
     this.logNotes()
+  }
+  componentWillUnmount () {
+    window.removeEventListener("keydown", this.onNext)
   }
   logNotes () {
     console.log(this.props.routes[1].notes)
