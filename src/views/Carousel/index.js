@@ -21,6 +21,9 @@ const S = StyleSheet.create({
 })
 
 export class Carousel extends React.Component {
+  static defaultProps = {
+    time: 5000
+  };
   constructor () {
     super()
     this.state = {

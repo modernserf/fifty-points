@@ -75,18 +75,3 @@ export class Intro extends React.Component {
     )
   }
 }
-
-
-const frontRow = `
-  Hello everyone in the front row! Don't tell anyone but you get some ~bonus content~
-`
-
-const notes = `
-  Last spring, my partner and I took a train upstate to Beacon for the weekend. We visited a museum called Dia:Beacon that specializes in large installations.
-`
-
-export default {
-  component: Intro,
-  frontRow,
-  notes
-}

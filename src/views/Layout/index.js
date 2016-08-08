@@ -31,7 +31,6 @@ export class Layout extends React.Component {
     this.onNext = this.onNext.bind(this)
   }
   onNext (e) {
-    console.log("onNext")
     const { goBack, goForward } = this.props.route
     const { location } = this.props
     if (e.keyCode === backKey) {
