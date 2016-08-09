@@ -1,5 +1,6 @@
 import React from "react"
 import { StyleSheet, css } from "aphrodite"
+import { TextBody } from "./text"
 
 const maskID = "mask"
 
@@ -32,13 +33,8 @@ export function TextMask ({ width, height, ...props }) {
           <rect className={css(S.maskBase)}
             width={width} height={height}/>
           <g className={css(S.textGroup)}
-            transform="translate(125,0)">
-            <text x={140} y={120}>“fifty</text>
-            <text x={250} y={270}
-              textAnchor="middle"
-              fontSize={160}>points</text>
-            <text x={20} y={370}>at</text>
-            <text x={500} y={400} textAnchor="end">random”</text>
+            transform="translate(125,100)">
+            <TextBody/>
           </g>
         </mask>
       </defs>
