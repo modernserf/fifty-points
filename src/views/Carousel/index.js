@@ -1,5 +1,5 @@
 import React from "react"
-import { StyleSheet, css } from "aphrodite"
+import { StyleSheet, css } from "aphrodite/no-important"
 
 const S = StyleSheet.create({
   container: {
@@ -12,8 +12,10 @@ const S = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center top",
     opacity: 0,
-    transition: "opacity 8s",
+    transition: "opacity 4s",
   },
   active: {
     opacity: 1,
@@ -22,7 +24,9 @@ const S = StyleSheet.create({
 
 export class Carousel extends React.Component {
   static defaultProps = {
-    time: 5000
+    time: 5000,
+    transition: 4000,
+    style: {},
   };
   constructor () {
     super()
@@ -48,13 +52,16 @@ export class Carousel extends React.Component {
     this.timeout = window.setTimeout(() => { this.runCarousel() }, time)
   }
   render () {
-    const { images } = this.props
+    const { images, transition, style } = this.props
     const { index } = this.state
     if (!images.length) { return <div></div> }
 
     const imgTags = images.map((src, i) =>
       <div key={src}
-        style={{ backgroundImage: `url('${src}')`}}
+        style={{
+          backgroundImage: `url('${src}')`,
+          transition: `opacity ${transition}ms`,
+          ...style }}
         className={css(S.image, i === index && S.active)}
         role="presentation" />)
 

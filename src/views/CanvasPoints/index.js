@@ -10,10 +10,10 @@ export class CanvasPoints extends React.Component {
     const ctx = canvas.getContext('2d')
 
     ctx.fillStyle = "rgba(0,0,0,0.2)"
-    ctx.fillRect(0,0,width,height)
+    ctx.fillRect(0,0,1500,1000)
 
     for (var i = 0; i < ln; i++) {
-      const alpha = Math.random() * 0.1 
+      const alpha = Math.random() * 0.2
       ctx.strokeStyle = `rgba(100,255,0,${alpha})`
 
       for (var j = i; j < ln; j++) {
@@ -32,10 +32,9 @@ export class CanvasPoints extends React.Component {
     return nextProps.points !== this.props.points
   }
   render () {
-    const { width, height } = this.props
     return (
       <canvas ref={(el) => this.drawPoints(el)}
-        width={width} height={height}></canvas>
+        width={1500} height={1000}></canvas>
     )
   }
 }

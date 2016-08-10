@@ -30,15 +30,28 @@ export class AnimatedPoints extends React.Component {
   }
   componentWillReceiveProps (nextProps) {
     if (nextProps.points !== this.props.points) {
-      this.setState({
-        lastPoints: this.props.points,
-        currentPoints: this.props.points,
-        frame: 0,
-      })
-      window.requestAnimationFrame(() => {
-        this.interpolatePoints()
-      })
+      this.startInterpolatePoints(this.props.points)
+      return
     }
+    if (nextProps.width !== this.props.width ||
+        nextProps.height !== this.props.height) {
+      const mapPoints = this.props.points.map(([x, y]) => [
+        x * this.props.width / nextProps.width,
+        y * this.props.height / nextProps.height,
+      ])
+      this.startInterpolatePoints(mapPoints)
+      return
+    }
+  }
+  startInterpolatePoints (points) {
+    this.setState({
+      lastPoints: points,
+      currentPoints: points,
+      frame: 0,
+    })
+    window.requestAnimationFrame(() => {
+      this.interpolatePoints()
+    })
   }
   interpolatePoints () {
     const { frame, lastPoints } = this.state
