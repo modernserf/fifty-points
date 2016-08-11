@@ -3,6 +3,7 @@ import { TextMask } from "../TextMask"
 import { CanvasPoints } from "../CanvasPoints"
 import { AnimatedPoints } from "../AnimatedPoints"
 import { StyleSheet, css } from "aphrodite"
+import { takePoints } from "../../data/points"
 
 const S = StyleSheet.create({
   container: {
@@ -15,17 +16,8 @@ const S = StyleSheet.create({
   }
 })
 
-function genPoints (count) {
-  const points = []
-  for (var i = 0; i < count; i++) {
-    points.push(genPoint())
-  }
-  return points;
-}
 
-function genPoint () {
-  return [Math.random() , Math.random()]
-}
+const genPoints = takePoints(Math.random)
 
 function randomInt (min, max) {
   return Math.round(Math.random() * (max - min) + min)

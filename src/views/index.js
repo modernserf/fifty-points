@@ -6,7 +6,9 @@ import { Static, Responsive, Intro } from "./Intro"
 import { Carousel } from "./Carousel"
 import { CodeBlock, CodeHighlight } from "./CodeBlock"
 import { CanvasPoints3D } from "./CanvasPoints3D"
+import { Random, RandomSmall } from "./Random"
 import * as img from "../img"
+
 
 const childRoutes = [
   {
@@ -138,7 +140,18 @@ const childRoutes = [
       <p><CodeHighlight>The points should be evenly distributed over the area of the wall.</CodeHighlight></p>
       <p>All of the points should be connected by straight lines.</p>
     </CodeBlock>,
-
+    notes: `
+      There's also some ambiguity with the distribution of points.`
+  },
+  {
+    component: Random,
+    notes: `
+      There are different kinds of randomness. The most common form, the kind you get with Math.random, is a uniform distribution, but you can see even with 1000 samples you still get clusters `
+  },
+  {
+    component: RandomSmall,
+    notes: `
+      And while we know that `
   }
 ].map((route, i) => ({...route, path: `/${i + 1}`}))
 
