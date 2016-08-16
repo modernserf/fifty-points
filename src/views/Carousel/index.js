@@ -52,9 +52,11 @@ export class Carousel extends React.Component {
     this.timeout = window.setTimeout(() => { this.runCarousel() }, time)
   }
   render () {
-    const { images, transition, style } = this.props
+    const { images, transition, contain } = this.props
     const { index } = this.state
     if (!images.length) { return <div></div> }
+
+    const style = contain ? { backgroundSize: "contain" } : {}
 
     const imgTags = images.map((src, i) =>
       <div key={src}
