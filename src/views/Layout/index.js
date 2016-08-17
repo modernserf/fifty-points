@@ -18,7 +18,6 @@ const S = StyleSheet.create({
   frontRow: {
     padding: 20,
     color: `rgb(100,255,0)`,
-    fontFamily: ["Fira Code", "monospace"],
   }
 })
 

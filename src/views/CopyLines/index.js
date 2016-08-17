@@ -1,51 +1,48 @@
 import React from "react"
-import { randomNormal } from "d3-random"
+import { randomNormal, randomLogNormal } from "d3-random"
 // import { StyleSheet, css } from "aphrodite"
 import { CanvasBase } from "../CanvasBase"
 
-const randFrame = randomNormal(0,1)
+const randFrame = (() => {
+    const randLog = randomLogNormal(0,0.5)
+    const randNormal = randomNormal(0,0.5)
+    return () => randNormal() * randLog()
+})()
 
 function drawFrame (ctx, { width, height, lines }) {
   ctx.fillStyle = "rgba(0,0,0, 0.1)"
   ctx.fillRect(0,0,10000,1000)
+  const spacing = 8
 
   const noise = Array(height).fill(0).map(randFrame)
 
-  const fs = lines.slice(1).reduce((foldLines, thisLine) => {
-    const lastLine = foldLines[foldLines.length - 1]
+  let lastLine = lines[0]
+
+  for (let i = 0; i < lines.length; i++) {
     let basis = lastLine[0]
+    const startX = basis + lines[i][0] + spacing
     const nextLine = []
 
-    for (let j = 0; j < thisLine.length; j++) {
-      if (lastLine.length > j) {
-        basis = lastLine[j]
-      }
-      // nextLine.push(line[j] + basis + spacing)
-      const offset = Math.max(2, thisLine[j] + 3)
-
-      nextLine.push(basis + offset)
-    }
-
-
-    return foldLines.concat([nextLine])
-  }, [lines[0]])
-
-
-  for (let i = 0; i < fs.length; i++) {
-    const alpha = Math.random() * 0.3
-    ctx.strokeStyle = `rgba(100,255,0,${alpha + 0.1})`
-    // ctx.strokeStyle = "rgb(100,255,0)"
+    ctx.strokeStyle = `rgba(100,255,0,0.2)`
     ctx.beginPath()
-    const startX = fs[i][0]
     ctx.moveTo(startX, height)
+
     for (let j = 0; j < lines[i].length; j++) {
-      const x = fs[i][j] + noise[j]
+      let offset = lines[i][j]
+      // try to "trace" contour of line, comparing with prev and next points
+      if (j > 0 && lastLine.length - 1 > j) {
+        basis = (lastLine[j] + lastLine[j - 1] + lastLine[j + 1]) / 3
+      }
+
+      const x = basis + Math.max(4, offset + spacing)
       const y = height - j
-      ctx.lineTo(x, y)
+      ctx.lineTo(x + noise[j], y)
+      nextLine.push(x)
     }
 
     ctx.stroke()
     ctx.closePath()
+    lastLine = nextLine
   }
 }
 
@@ -53,18 +50,16 @@ function genLines (personCount, width, height) {
   const avg = 2 * height / 3
   const stdDev = height / 10
   const heightRand = randomNormal(avg, stdDev)
-  const heights = Array(personCount).fill(0)
-    .map(() => Math.round(heightRand()))
+  const heights = Array(personCount).fill(0).map(heightRand)
 
-  const spacing = 3
-  const reach = 5
-  const rand = randomNormal(0, 0.05)
-  const lines = Array(200).fill(null)
+  // const spacing = 3
+  const rand = randomNormal(0, 0.2)
+  return Array(200).fill(null)
     .map((_, i) => {
       const arr = []
-      const h = heights[i % personCount] + Math.floor(Math.random() * reach)
+      const h = heights[i % personCount] + Math.floor(Math.random() * 20)
 
-      let basis = spacing
+      let basis = 0
       // fill line
       for (let i = 0; i < h; i++) {
         basis += rand()
@@ -72,14 +67,12 @@ function genLines (personCount, width, height) {
       }
       return arr
     })
-
-  return lines
 }
 
 const width = 1000
 const height = 500
 
-const lines = genLines(10, width, height)
+const lines = genLines(30, width, height)
 
 export class CopyLines extends React.Component {
   render () {

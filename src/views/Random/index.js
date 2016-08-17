@@ -9,7 +9,8 @@ const height = 300
 const S = StyleSheet.create({
   label: {
     color: `rgb(100,255,0)`,
-    fontWeight: "bold",
+    fontSize: 15,
+    textTransform: "uppercase",
   },
   block: {
     padding: 20,
@@ -96,8 +97,11 @@ export class Random extends React.Component {
       this.setState({
         count: Math.min(poisson.count, Math.ceil(count * 1.1))
       })
-      window.setTimeout(() => this.runLoop(), 100)
+      this.timeout = window.setTimeout(() => this.runLoop(), 100)
     }
+  }
+  componentWillUnmount () {
+    window.clearTimeout(this.timeout)
   }
   render () {
     const { count } = this.state

@@ -1,25 +1,39 @@
 import React from "react"
 import { StyleSheet, css } from "aphrodite/no-important"
 
-const green = "rgb(100,255,0)"
+const greenLo = "rgba(100,255,0,0.5)"
+const greenHi = "rgba(100,255,0,1)"
 
 const S = StyleSheet.create({
   container: {
     padding: 10,
-    color: green,
-    fontFamily: ["Fira Code", "monospace"],
+    backgroundColor: "black",
+    color: greenHi,
     fontSize: 36,
   },
+  dimmed: {
+    color: greenLo,
+    animationName: {
+      "0%": { opacity: 1 },
+      "50%": { opacity: 0.8 },
+      "100%": { opacity: 1 },
+    },
+    animationDuration: "10s",
+    animationIterationCount: 'infinite',
+  },
   highlight: {
-    color: "black",
-    backgroundColor: green,
+    color: greenHi,
   }
 })
 
 export function CodeHighlight ({ children }) {
-  return <em className={css(S.highlight)}>{children}</em>
+  return <span className={css(S.highlight)}>{children}</span>
 }
 
-export function CodeBlock ({ children }) {
-    return <div className={css(S.container)}>{children}</div>
+export function CodeBlock ({ children, highlight }) {
+    return (
+      <div className={css(S.container, highlight && S.dimmed)}>
+        {children}
+      </div>
+    )
 }

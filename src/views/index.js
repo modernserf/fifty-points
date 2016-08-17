@@ -18,7 +18,7 @@ const childRoutes = [
     notes: `
       Last spring, my partner and I took a train upstate to Beacon for the weekend. We visited a museum called Dia:Beacon that specializes in large installations.`,
     frontRow: `
-      Hello everyone in the front row! Don't tell anyone but you get some ~bonus content~`
+      Hello everyone in the front row! Don't tell anyone but you get some *bonus content*`
   },
   {
     component: () =>
@@ -47,7 +47,7 @@ const childRoutes = [
     notes: `
       But it wasn't all giant walls of rust and white-on-white collages. There was a lot of art that connected on a more intellectual than visceral level.`,
     frontRow: `
-      There was also a stack of unlabelled casette tapes in the room, which I can only _assume_ was recordings of demonic summoning incantations.`
+      There was also a stack of unlabelled casette tapes in the room, which I can only _assume_ were recordings of demonic summoning incantations.`
   },
   {
     component: () => <Carousel images={[img.wd136]} />,
@@ -109,11 +109,11 @@ const childRoutes = [
       Now, as I was implementing this, I was struck by the ambiguity inherent in these instructions.`
   },
   {
-    component: () => <CodeBlock>
+    component: () => <CodeBlock highlight>
       <p><CodeHighlight>On a wall surface,
-        any continuous stretch of wall,</CodeHighlight>
-        &nbsp;using a hard pencil,
-        place fifty points at random.</p>
+        any continuous stretch of wall,
+        using a hard pencil,
+        place fifty points at random.</CodeHighlight></p>
       <p>The points should be evenly distributed over the area of the wall.</p>
       <p>All of the points should be connected by straight lines.</p>
     </CodeBlock>,
@@ -131,11 +131,11 @@ const childRoutes = [
       Does a continuous stretch of wall include corners? By the way, if any of you are good at webGL I'd love to see what this would look like on the inside of a cylinder or something like that.`,
   },
   {
-    component: () => <CodeBlock>
+    component: () => <CodeBlock highlight>
       <p>On a wall surface,
         any continuous stretch of wall,
         using a hard pencil,
-        <CodeHighlight>place fifty points at random.</CodeHighlight></p>
+        place fifty points at random.</p>
       <p><CodeHighlight>The points should be evenly distributed over the area of the wall.</CodeHighlight></p>
       <p>All of the points should be connected by straight lines.</p>
     </CodeBlock>,
@@ -159,22 +159,44 @@ const childRoutes = [
   },
   {
     component: () => <CodeBlock>
-      <p>The first drafter draws a not straight vertical line as long as possible. The second drafter draws a line next to the first one, trying to copy it. The third drafter does the same, as do as many drafters as possible.</p>
+      <p>The first drafter draws a not straight vertical line as long as possible.</p>
+      <p>The second drafter draws a line next to the first one, trying to copy it.</p>
+      <p>The third drafter does the same, as do as many drafters as possible.</p>
       <p>Then the first drafter, followed by the others, copies the last line drawn until both ends of the wall are reached.</p>
     </CodeBlock>,
     notes: `
-      Another simple algorithm, but this one is even more dependent on human irregularity.`
+      Another simple algorithm, but this one is even more dependent on ambiguity and irregularity -- specifically _human_ irregularity.`
+  },
+  {
+    component: () => <CodeBlock highlight>
+      <p><CodeHighlight>The first drafter draws a not straight vertical line as long as possible.</CodeHighlight></p>
+      <p>The second drafter draws a line next to the first one, trying to copy it.</p>
+      <p>The third drafter does the same, as do as many drafters as possible.</p>
+      <p>Then the first drafter, followed by the others, copies the last line drawn until both ends of the wall are reached.</p>
+    </CodeBlock>,
+    notes: `
+      "The first drafter draws a not straight vertical line as long as possible." What does this mean? This leaves a lot open to interpretation -- "not straight" can mean anything from slightly rough to wild and wiggly. "As long as possible" is clearer, but _this_ depends on the reach of the drafter.`
+  },
+  {
+    component: () => <CodeBlock highlight>
+      <p>The first drafter draws a not straight vertical line as long as possible.</p>
+      <p><CodeHighlight>The second drafter draws a line next to the first one, trying to copy it.</CodeHighlight></p>
+      <p>The third drafter does the same, as do as many drafters as possible.</p>
+      <p>Then the first drafter, followed by the others, copies the last line drawn until both ends of the wall are reached.</p>
+    </CodeBlock>,
+    notes: `
+      Then each drafter tries to copy -- imperfectly, of course -- the contour of the line before them. This is where Wall Drawing #123 gets its distinctive wood-grain effect, as some irregularities are smoothed out and others are compounded.
+
+      But even here there's some ambiguity in the instructions. If the second drafter is shorter than the first, should they stand on a box so they can reach the top of the previous line? If they're only copying the contour of the previous line as far as they can reach, should subsequent drafters maintain that height or try then extend the line beyond that if their reach allows? I've seen all three approaches.`
   },
   {
     component: CopyLines,
     notes: `
-      First, there's the inherent randomness in "not straight lines."
-      As each drafter tries to follow the one before them, the initial irregularity is offset by the irregularity of the next person, giving the wood-grain effect.
-      "As long as possible" adds another dimension of irregularity -- that depends on the height and reach of the drafter.`
+      I like the uneven look of the implementation at Dia:Beacon, though I recognize its kind of a loose interpretation of the source material. I'm not a Sol LeWitt "strict constructionist." Regardless, I had a much harder time implementing this one in a way that looked right -- its hard to make an algorithm that captures intuition.`
   },
   {
     notes: `
-      I think that I find this so fascinating because its clearly a sibling to writing software, but its goals are almost antithetical to what we do for work. The soul of the art -- the ambiguity, irregularity and surprise -- are the kinds of things we try to stamp out in most of the code we write.`
+      So why am I up here? What about LeWitt's work is so special that I have to tell you all about it? I think that I find this so fascinating because its clearly a sibling to writing software, but its goals are almost antithetical to what we do for work. The soul of the art -- the ambiguity, irregularity and surprise -- are the kinds of things we try to stamp out in most of the code we write.`
   },
   {
     notes: `
@@ -185,7 +207,7 @@ const childRoutes = [
       <p>The idea becomes a machine that makes the art.</p>
     </CodeBlock>,
     notes: `
-      `
+      This is what the man himself said in a piece he wrote for ArtForum: "The idea becomes a machine that makes the art."`
   },
   {
     notes: `

@@ -74,8 +74,11 @@ export class CanvasPoints3D extends React.Component {
     const { count } = this.state
     if (count < 50) {
       this.setState({ count: count + 1 })
-      window.setTimeout(() => this.addPoints(), 100)
+      this.timeout = window.setTimeout(() => this.addPoints(), 100)
     }
+  }
+  componentWillUnmount () {
+    window.clearTimeout(this.timeout)
   }
   render () {
     const { points, count } = this.state

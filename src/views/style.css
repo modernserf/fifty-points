@@ -1,3 +1,5 @@
+@import "../font/stylesheet.css";
+
 * {
   position: relative;
   box-sizing: border-box;
@@ -6,8 +8,14 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: "Hyperspace", monospace;
   background-color: black;
+  letter-spacing: 1px;
+  /*font-weight: bold;*/
+}
+
+em {
+  font-style: normal;
 }
 
 svg, canvas {

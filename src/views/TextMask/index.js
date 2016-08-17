@@ -13,10 +13,6 @@ const S = StyleSheet.create({
     fill: "gray",
   },
   textGroup: {
-    fontSize: 90,
-    fontFamily: ["Fira Code", "monospace"],
-    fontWeight: "bold",
-    textTransform: "uppercase",
     stroke: "black",
     strokeWidth: 2,
     fill: "gray",
