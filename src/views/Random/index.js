@@ -3,8 +3,8 @@ import { StyleSheet, css } from "aphrodite"
 import { CanvasBase } from "../CanvasBase"
 import { takePoints, takePoisson, takeBestCandidate } from "../../data/points"
 
-const width = 300
-const height = 300
+const width = 280
+const height = 280
 
 const S = StyleSheet.create({
   label: {
@@ -13,13 +13,14 @@ const S = StyleSheet.create({
     textTransform: "uppercase",
   },
   block: {
-    padding: 20,
+    paddingRight: 20,
   },
   container: {
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
     listStyleType: "none",
+    justifyContent: "center",
   },
   wrap: {
     width,

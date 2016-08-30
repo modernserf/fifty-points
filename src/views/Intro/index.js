@@ -1,6 +1,5 @@
 import React from "react"
 import { TextMask } from "../TextMask"
-import { CanvasPoints } from "../CanvasPoints"
 import { AnimatedPoints } from "../AnimatedPoints"
 import { StyleSheet, css } from "aphrodite"
 import { takePoints } from "../../data/points"
@@ -16,22 +15,10 @@ const S = StyleSheet.create({
   }
 })
 
-
 const genPoints = takePoints(Math.random)
 
 function randomInt (min, max) {
   return Math.round(Math.random() * (max - min) + min)
-}
-
-const staticPoints = genPoints(50)
-
-export function Static () {
-  return (
-    <div>
-      <CanvasPoints width={1000} height={500}
-        points={staticPoints}/>
-    </div>
-  )
 }
 
 export class Responsive extends React.Component {

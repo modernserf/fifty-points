@@ -18,11 +18,23 @@ const S = StyleSheet.create({
   frontRow: {
     padding: 20,
     color: `rgb(100,255,0)`,
+    fontFamily: "sans-serif",
   }
 })
 
-const backKey = 33
-const fwdKey = 34
+const keyCodes = {
+  // for remote
+  pgUp: 33,
+  pgDn: 34,
+  // for keyboard
+  left: 37,
+  up: 38,
+  right: 39,
+  down: 40,
+}
+
+const backKeys = new Set([keyCodes.pgUp, keyCodes.left, keyCodes.up])
+const nextKeys = new Set([keyCodes.pgDn, keyCodes.right, keyCodes.down])
 
 export class Layout extends React.Component {
   constructor() {
@@ -32,9 +44,9 @@ export class Layout extends React.Component {
   onNext (e) {
     const { goBack, goForward } = this.props.route
     const { location } = this.props
-    if (e.keyCode === backKey) {
+    if (backKeys.has(e.keyCode)) {
       goBack(location)
-    } else if (e.keyCode === fwdKey) {
+    } else if (nextKeys.has(e.keyCode)) {
       goForward(location)
     }
   }
@@ -49,7 +61,10 @@ export class Layout extends React.Component {
     window.removeEventListener("keydown", this.onNext)
   }
   logNotes () {
-    console.log(this.props.routes[1].notes)
+    console.log(`%c ----------- %c
+       ${this.props.routes[1].notes} \n\n\n\n`,
+       "background-color: red",
+       "background-color: white")
   }
   render () {
     const { children, routes } = this.props
@@ -59,7 +74,7 @@ export class Layout extends React.Component {
           {children}
         </div>
         <div className={css(S.frontRow)}>
-          {routes[1].frontRow}
+          {routes[1].notes}
         </div>
       </div>
     )

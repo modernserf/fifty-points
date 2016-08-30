@@ -9,6 +9,7 @@ import lewittDia2 from "./lewitt-dia-2.jpg"
 import lewittDia3 from "./lewitt-dia-3.jpg"
 import lwCertificate from "./certificate.jpg"
 import lwInstructions118 from "./instructions-118.jpg"
+import deepDream from "./deepdream.jpg"
 
 import wd118_1 from "./wd-118-1.jpg"
 import wd118_2 from "./wd-118-2.jpg"
@@ -29,5 +30,6 @@ export {
   lwInstructions118,
   wd118,
   wd123,
-  wd136
+  wd136,
+  deepDream,
 }

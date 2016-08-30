@@ -10,7 +10,7 @@ const randFrame = (() => {
 })()
 
 function drawFrame (ctx, { width, height, lines }) {
-  ctx.fillStyle = "rgba(0,0,0, 0.1)"
+  ctx.fillStyle = "rgba(0,0,0, 0.2)"
   ctx.fillRect(0,0,10000,1000)
   const spacing = 8
 
@@ -23,7 +23,7 @@ function drawFrame (ctx, { width, height, lines }) {
     const startX = basis + lines[i][0] + spacing
     const nextLine = []
 
-    ctx.strokeStyle = `rgba(100,255,0,0.2)`
+    ctx.strokeStyle = `rgba(100,255,0,0.5)`
     ctx.beginPath()
     ctx.moveTo(startX, height)
 
@@ -70,7 +70,7 @@ function genLines (personCount, width, height) {
 }
 
 const width = 1000
-const height = 500
+const height = 700
 
 const lines = genLines(30, width, height)
 

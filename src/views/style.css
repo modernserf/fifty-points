@@ -21,3 +21,7 @@ em {
 svg, canvas {
   display: block;
 }
+
+blockquote {
+  margin: 0;
+}

@@ -1,132 +1,127 @@
 import React from "react"
-import { CanvasBase } from "../CanvasBase"
+import THREE, { Vector3 } from "three"
+import R3, { Object3D, Scene, Renderer, PerspectiveCamera } from "react-three"
 import { takePoints } from "../../data/points"
 
-function drawFrame (ctx, props) {
-  const { width, height, points } = props
+const staticPoints = takePoints(Math.random)(50)
 
-  const ln = points.length
-  const mid = width >> 1
-
-  ctx.fillStyle = "rgba(0,0,0,0.5)"
-  ctx.fillRect(0,0,1500,1000)
-
-  const vanishBottom = height * -4
-  const vanishRight = width
-
-  // const ras2cart = (x, y) => [x - mid, height - y]
-  const cart2ras = ([x, y]) => [x + mid, 0 - (y - height)]
-
-  const mHoriz = (b) => (height - b) / vanishRight
-  const mVert = (_x) => (vanishBottom - height) / _x
-
-  const fX = (x, b) => mHoriz(b) * x + b
-
-  const fY = (b1) => {
-    const m1 = mHoriz(b1)
-    const m2 = mVert(mid)
-    const b2 = vanishBottom
-
-    return (b2 - b1) / (m1 - m2)
+function mapPoint ([x, y]) {
+  if (x < 0.5) {
+    return new Vector3(-x * 2, y, 0)
+  } else {
+    return new Vector3(0, y, (x - 0.5) * 2)
   }
+  // return x > 0.5 ? new Vector3(0, y, (x - 0.5) * 2) : new Vector3(x * 2, y, 0)
+}
 
-  const xDiag = fY(0)
-  const yDiag = fX(xDiag, 0)
-  const bDiag = height - 100
-  const mDiag = (yDiag - bDiag) / xDiag
-
-  const fHoriz = (bHoriz) => {
-    return (bDiag - bHoriz) / (mHoriz(bHoriz) - mDiag)
-  }
-
-  const mapPoint = (x, y) => {
-    if (x === 0) { return [x, y] }
-
-    const sign = x > 0 ? 1 : -1
-    const xAt = bDiag - (x * sign)
-
-    const barX = fHoriz(xAt)
-    const barY = fX(barX, xAt)
-
-    // vertical fn
-    const m1 = (barY - vanishBottom) / barX
-    const b1 = vanishBottom
-
-    // horiz fn
-    const m2 = mHoriz(y)
-    const b2 = y
-
-    const _x = (b2 - b1) / (m1 - m2)
-    const _y = (m1 * _x) + b1
-
-    return [_x * sign * -1, _y]
-  }
-
-  const drawLine = (start, end) => {
-    const [x1, y1] = cart2ras(start)
-    const [x2, y2] = cart2ras(end)
-    ctx.beginPath()
-    ctx.moveTo(x1, y1)
-    ctx.lineTo(x2, y2)
-    ctx.stroke()
-    ctx.closePath()
-  }
-
-  const drawLine3D = (x1, y1, x2, y2) => {
-      drawLine(mapPoint(x1, y1), mapPoint(x2, y2))
-  }
-
-  ctx.strokeStyle = `rgba(100,255,0,0.3)`
-  for (let b = 0; b < (height - 50); b += 50) {
-    drawLine3D(0, b, bDiag, b)
-    drawLine3D(0, b, -bDiag, b)
-    drawLine3D(b, 0, b, bDiag)
-    drawLine3D(-b, 0, -b, bDiag)
-  }
-
-  for (var i = 0; i < ln; i++) {
-    const alpha = Math.random() * 0.1 + 0.2
-    ctx.strokeStyle = `rgba(100,255,0,${alpha})`
-
-    for (var j = i; j < ln; j++) {
-      const start = points[i]
-      const end = points[j]
-
-      drawLine3D(
-        (start[0] - 0.5) * bDiag * 2, start[1] * bDiag,
-        (end[0] - 0.5) * bDiag * 2, end[1] * bDiag)
+const lines = ((points) => {
+  const segments = new THREE.Geometry()
+  for (var i = 0; i < points.length; i++) {
+    for (var j = i; j < points.length; j++) {
+      segments.vertices.push(
+        mapPoint(points[i]),
+        mapPoint(points[j])
+      )
     }
+  }
+  return segments
+})(staticPoints)
+
+function Lines ({ material, planeMaterial, lines, position, rotation }) {
+  const e = new THREE.Euler(0, rotation)
+
+  return (
+    <Object3D rotation={e}>
+      <R3.Mesh name="left"
+        geometry={new THREE.PlaneGeometry(1, 1, 8, 8)}
+        position={new Vector3(-0.5,0.5,0)}
+        rotation={new THREE.Euler(0,0)}
+        material={planeMaterial}/>
+      <R3.Mesh name="right"
+        geometry={new THREE.PlaneGeometry(1, 1, 8, 8)}
+        position={new Vector3(0, 0.5, 0.5)}
+        rotation={new THREE.Euler(0, Math.PI / 2)}
+        material={planeMaterial}/>
+      <R3.Mesh name="bottom"
+        geometry={new THREE.PlaneGeometry(1, 1, 8, 8)}
+        position={new Vector3(-0.5,0,0.5)}
+        rotation={new THREE.Euler(-Math.PI / 2,0)}
+        material={planeMaterial}/>
+      <R3.LineSegments geometry={lines} material={material}/>
+    </Object3D>
+  )
+}
+
+Lines.defaultProps = {
+  material: new THREE.ShaderMaterial({
+    fragmentShader: `
+      void main () {
+        gl_FragColor = vec4(0.3, 1, 0, 0.2);
+      }
+    `,
+    transparent: true,
+  }),
+  planeMaterial: new THREE.MeshBasicMaterial({
+    color: 0x64ff00,
+    transparent: true,
+    opacity: 0.2,
+    wireframe: true,
+  })
+}
+
+class Test3D extends React.Component {
+  constructor () {
+    super()
+    this.state = { rotation: Math.PI / 8 }
+  }
+  componentDidMount () {
+    this.rotate()
+  }
+  rotate = () => {
+    this.setState({
+      rotation: this.state.rotation + 0.001
+    })
+    window.requestAnimationFrame(this.rotate)
+  }
+  render () {
+    const { rotation } = this.state
+    const width = 800
+    const height = 800
+    const camera = "maincamera"
+    const cameraPos = new Vector3(0,1,3)
+    const center = new Vector3(0,0,0)
+
+    return (
+      <Renderer width={width} height={height}>
+        <Scene width={width} height={height} camera={camera}>
+          <PerspectiveCamera name={camera}
+            position={cameraPos} lookat={center}/>
+          <Lines lines={lines}
+            position={center} rotation={rotation} />
+        </Scene>
+      </Renderer>
+    )
   }
 }
 
-export class CanvasPoints3D extends React.Component {
-  constructor () {
-    super()
-    this.state = {
-      points: takePoints(Math.random)(50),
-      count: 2
-    }
-  }
-  componentDidMount () {
-    this.addPoints()
-  }
-  addPoints () {
-    const { count } = this.state
-    if (count < 50) {
-      this.setState({ count: count + 1 })
-      this.timeout = window.setTimeout(() => this.addPoints(), 100)
-    }
-  }
-  componentWillUnmount () {
-    window.clearTimeout(this.timeout)
+class GLCanvas extends React.Component {
+  init (e) {
+    if (this.canvasWrap) { return }
+    this.canvasWrap = e;
+
+    R3.render(this.props.children, this.canvasWrap)
   }
   render () {
-    const { points, count } = this.state
-    return (
-      <div>
-        <CanvasBase drawFrame={drawFrame}
-          points={points.slice(0, count)} width={1000} height={500}/>
-      </div>
-    )
+    return <div ref={(e) => { this.init(e) }}/>
   }
+}
+
+export function CanvasPoints3D () {
+  return (
+    <div style={{margin: "0 auto"}}>
+      <GLCanvas><Test3D /></GLCanvas>
+    </div>
+  )
+
+
 }
