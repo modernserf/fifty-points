@@ -1,8 +1,6 @@
 # "fifty points at random"
 
 ## TODO
-- dark mode vs light mode
-- toggle 3D controls
 - spooky 3D move
 - walk through source code
 - more on "who is the artist" & auteur theory

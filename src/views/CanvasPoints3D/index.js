@@ -115,7 +115,7 @@ class GLCanvas extends React.Component {
   }
 }
 
-const controlStyle = {
+const baseControlStyle = {
   position: "absolute",
   top: 0,
   right: 0,
@@ -137,6 +137,7 @@ class extends React.Component {
       camera_y: 1.5,
       rotation: Math.PI / 8,
       rotation_rate: 1,
+      showControls: false,
   }
   componentDidMount () {
     this.inc()
@@ -159,9 +160,15 @@ class extends React.Component {
   }
   render () {
       const { colorMode } = this.props
+      const { showControls, ...state } = this.state
+
+      const controlStyle = {
+          ...baseControlStyle,
+          display: showControls ? "block" : "none",
+      }
 
       const childProps = {
-          ...this.state,
+          ...state,
           color: int(colorModes[colorMode].color),
           backgroundColor: int(colorModes[colorMode].backgroundColor)
       }
@@ -170,7 +177,7 @@ class extends React.Component {
       <div style={{margin: "0 auto"}}>
         <ControlPanel style={controlStyle}
             color={this.props.color}
-          data={this.state} dispatch={this.dispatch}>
+          data={state} dispatch={this.dispatch}>
           <Slider key="camera_y" min={-5} max={5} />
           <Slider key="camera_z" min={0} max={5} />
           <Slider key="rotation" min={0} max={Math.PI * 2}/>
