@@ -1,39 +1,43 @@
 import React from "react"
-import { StyleSheet, css } from "aphrodite/no-important"
+import { connect } from "react-redux"
+import { css } from "aphrodite/no-important"
+import { rgba, makeStyles, selectColors } from "../../data/colors"
 
-const greenLo = "rgba(100,255,0,0.5)"
-const greenHi = "rgba(100,255,0,1)"
-
-const S = StyleSheet.create({
-  container: {
-    padding: 10,
-    backgroundColor: "black",
-    color: greenHi,
-    fontSize: 36,
-  },
-  dimmed: {
-    color: greenLo,
-    animationName: {
-      "0%": { opacity: 1 },
-      "50%": { opacity: 0.8 },
-      "100%": { opacity: 1 },
+const colorStyles = makeStyles({
+    container: {
+        backgroundColor: "backgroundColor",
+        color: "color",
+        padding: 10,
+        fontSize: 36,
     },
-    animationDuration: "10s",
-    animationIterationCount: 'infinite',
-  },
-  highlight: {
-    color: greenHi,
-  }
+    dimmed: {
+        color: ({ color }) => rgba(color)(0.5),
+        animationName: {
+          "0%": { opacity: 1 },
+          "50%": { opacity: 0.8 },
+          "100%": { opacity: 1 },
+        },
+        animationDuration: "10s",
+        animationIterationCount: 'infinite',
+    },
+    highlight: {
+        color: "color",
+        fontWeight: "bold",
+    }
 })
 
-export function CodeHighlight ({ children }) {
-  return <span className={css(S.highlight)}>{children}</span>
-}
+export const CodeHighlight = connect(selectColors)(
+({ children, colorMode }) => {
+    const S = colorStyles[colorMode]
+    return <span className={css(S.highlight)}>{children}</span>
+})
 
-export function CodeBlock ({ children, highlight }) {
+export const CodeBlock = connect(selectColors)(
+({ children, highlight, backgroundColor, colorMode }) => {
+    const S = colorStyles[colorMode]
     return (
       <div className={css(S.container, highlight && S.dimmed)}>
         {children}
       </div>
     )
-}
+})

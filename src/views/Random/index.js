@@ -1,14 +1,15 @@
 import React from "react"
+import { connect } from "react-redux"
 import { StyleSheet, css } from "aphrodite"
 import { CanvasBase } from "../CanvasBase"
 import { takePoints, takePoisson, takeBestCandidate } from "../../data/points"
+import { selectColors } from "../../data/colors"
 
 const width = 280
 const height = 280
 
 const S = StyleSheet.create({
   label: {
-    color: `rgb(100,255,0)`,
     fontSize: 15,
     textTransform: "uppercase",
   },
@@ -30,19 +31,18 @@ const S = StyleSheet.create({
 })
 
 function drawFrame (ctx, props) {
-  const { width, height, points } = props
+  const { width, height, points, colorAlpha, backgroundColorAlpha } = props
 
   const ln = points.length
   const r = 2
   const t = Math.PI * 2
 
-  ctx.fillStyle = "rgb(0,0,0)"
+  ctx.fillStyle = backgroundColorAlpha(1)
   ctx.fillRect(0,0,300,300)
-
 
   for (var i = 0; i < ln; i++) {
     const alpha = Math.random() * 0.2 + 0.5
-    ctx.strokeStyle = `rgba(100,255,0,${alpha})`
+    ctx.strokeStyle = colorAlpha(alpha)
     const [x, y] = points[i]
 
     ctx.beginPath()
@@ -66,64 +66,52 @@ const dists = [{
   points: poisson.points,
 }]
 
-const smallSamples = [0,0,0,0,0,0].map(() => ({
-  label: "Uniform ×50",
-  points: takePoints(Math.random)(50)
-}))
-
-function RandomBlock ({ label, points }) {
+function RandomBlock ({ label, points, colorAlpha, backgroundColorAlpha }) {
   return (
     <li  className={css(S.block)}>
-      <h3 className={css(S.label)}>{label}</h3>
+      <h3 className={css(S.label)}
+        style={{ color: colorAlpha(1) }}>{label}</h3>
       <div className={css(S.wrap)}>
         <CanvasBase points={points}
           drawFrame={drawFrame}
-          width={width} height={height} />
+          width={width} height={height}
+          colorAlpha={colorAlpha}
+          backgroundColorAlpha={backgroundColorAlpha} />
       </div>
     </li>
   )
 }
 
-export class Random extends React.Component {
-  constructor () {
-    super()
-    this.state = { count: 1 }
-  }
-  componentDidMount () {
-    this.runLoop()
-  }
-  runLoop () {
+export const Random = connect(selectColors)(
+class extends React.Component {
+  state = { count: 1 }
+  runLoop = () => {
     const { count } = this.state
     if (count < poisson.count) {
       this.setState({
         count: Math.min(poisson.count, Math.ceil(count * 1.1))
       })
-      this.timeout = window.setTimeout(() => this.runLoop(), 100)
+      this.timeout = window.setTimeout(this.runLoop, 100)
     }
+  }
+  componentDidMount () {
+    this.runLoop()
   }
   componentWillUnmount () {
     window.clearTimeout(this.timeout)
   }
   render () {
+    const { colorAlpha, backgroundColorAlpha } = this.props
     const { count } = this.state
     const rows = dists.map(({label, points}, i) =>
-      <RandomBlock key={i} label={label} points={points.slice(0, count)}/>
+      <RandomBlock key={i} label={label}
+        points={points.slice(0, count)}
+        colorAlpha={colorAlpha}
+        backgroundColorAlpha={backgroundColorAlpha}/>
     )
 
     return (
       <ul className={css(S.container)}>{rows}</ul>
     )
   }
-}
-
-export class RandomSmall extends React.Component {
-  render () {
-    const rows = smallSamples.map(({label, points}, i) =>
-      <RandomBlock key={i} label={label} points={points}/>
-    )
-
-    return (
-      <ul className={css(S.container)}>{rows}</ul>
-    )
-  }
-}
+})

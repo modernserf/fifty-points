@@ -1,12 +1,13 @@
 import React from "react"
+import { connect } from "react-redux"
 import { css, StyleSheet } from "aphrodite"
 import { Artist } from "./artist"
 import { Process } from "./process"
 import { Drafter } from "./drafter"
+import { selectColors } from "../../data/colors"
 
 const S = StyleSheet.create({
   graphic: {
-    stroke: `rgb(100,255,0)`,
     fill: "none",
   },
   text: {
@@ -18,10 +19,11 @@ const S = StyleSheet.create({
 
 const mid = 125
 
-export function Collaboration () {
+export const Collaboration = connect(selectColors)(
+({ color }) => {
   return (
     <svg width={1000} height={500} style={{margin: "80px auto"}}>
-      <g className={css(S.graphic)}>
+      <g className={css(S.graphic)} style={{ stroke: color }}>
         <g>
           <Artist />
           <text className={css(S.text)} x={mid} y={400}>Author</text>
@@ -37,4 +39,4 @@ export function Collaboration () {
       </g>
     </svg>
   )
-}
+})

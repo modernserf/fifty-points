@@ -1,4 +1,4 @@
-import React, { PropTypes } from "react"
+import React  from "react"
 import { CanvasPoints } from "../CanvasPoints"
 
 // t: current time, b: begInnIng value, c: change In value, d: duration
@@ -7,13 +7,6 @@ function ease (t, b, c, d) {
 }
 
 export class AnimatedPoints extends React.Component {
-  static propTypes = {
-    points: PropTypes.array.isRequired,
-    frames: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-    onEnd: PropTypes.func.isRequired,
-  };
   constructor () {
     super()
     this.state = {

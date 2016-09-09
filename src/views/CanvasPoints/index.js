@@ -1,17 +1,19 @@
 import React from "react"
 import { CanvasBase } from "../CanvasBase"
+import { connect } from "react-redux"
+import { selectColors } from "../../data/colors"
 
 function drawFrame (ctx, props) {
-  const { width, height, points } = props
+  const { width, height, points, colorAlpha, backgroundColorAlpha } = props
 
   const ln = points.length
 
-  ctx.fillStyle = "rgba(0,0,0,0.2)"
+  ctx.fillStyle = backgroundColorAlpha(0.2)
   ctx.fillRect(0,0,1500,1000)
 
   for (var i = 0; i < ln; i++) {
     const alpha = Math.random() * 0.2
-    ctx.strokeStyle = `rgba(100,255,0,${alpha})`
+    ctx.strokeStyle = colorAlpha(alpha)
 
     for (var j = i; j < ln; j++) {
       const start = points[i]
@@ -26,8 +28,8 @@ function drawFrame (ctx, props) {
   }
 }
 
-export function CanvasPoints (props) {
-  return (
-    <CanvasBase drawFrame={drawFrame} {...props}/>
-  )
-}
+export const CanvasPoints = connect(selectColors)(function (props) {
+    return (
+        <CanvasBase drawFrame={drawFrame} {...props}/>
+    )
+})

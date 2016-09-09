@@ -1,8 +1,11 @@
 import "./style.css"
 import React from "react"
+import { createStore } from "redux"
+import { Provider } from "react-redux"
 import { Router, hashHistory as history } from "react-router"
 import { Layout } from "./Layout"
-import { Responsive, Intro } from "./Intro"
+import { Intro } from "./Intro"
+import { Responsive } from "./Responsive"
 import { Static } from "./Static"
 import { Carousel } from "./Carousel"
 import { CodeBlock, CodeHighlight } from "./CodeBlock"
@@ -14,6 +17,22 @@ import { Collaboration } from "./Collaboration"
 import { BlockQuote } from "./BlockQuote"
 import { NoSurprises } from "./NoSurprises"
 import * as img from "../img"
+
+const initState = {
+    colorMode: "light",
+    showNotes: false,
+}
+
+function reducer (state = initState, { type, payload }) {
+    switch (type) {
+    case "setColorMode":
+        return { ...state, colorMode: payload }
+    default:
+        return state
+    }
+}
+
+const store = createStore(reducer)
 
 const childRoutes = [
   {
@@ -266,7 +285,9 @@ const routes = {
 }
 
 export const main = (
-  <Router history={history} routes={routes} />
+    <Provider store={store}>
+        <Router history={history} routes={routes} />
+    </Provider>
 )
 
 function goBack (location) {

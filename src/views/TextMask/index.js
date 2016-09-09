@@ -1,13 +1,14 @@
 import React from "react"
+import { connect } from "react-redux"
 import { StyleSheet, css } from "aphrodite"
 import { TextBody } from "./text"
+import { selectColors } from "../../data/colors"
 
 const maskID = "mask"
 
 const S = StyleSheet.create({
   maskDest: {
-    fill: "black",
-    mask: `url('#${maskID}')`
+    mask: `url('#${maskID}')`,
   },
   maskBase: {
     fill: "gray",
@@ -19,9 +20,10 @@ const S = StyleSheet.create({
   }
 })
 
-export function TextMask ({ width, height, ...props }) {
+export const TextMask = connect(selectColors)(
+function TextMask ({ width, height, backgroundColor, style }) {
   return (
-    <svg width={width} height={height} {...props}>
+    <svg width={width} height={height} style={style}>
       <defs>
         <mask id={maskID}
           width={width} height={height}
@@ -34,7 +36,9 @@ export function TextMask ({ width, height, ...props }) {
           </g>
         </mask>
       </defs>
-      <rect className={css(S.maskDest)} width={width} height={height} />
+      <rect className={css(S.maskDest)}
+        style={{ fill: backgroundColor }}
+        width={width} height={height} />
     </svg>
   )
-}
+})

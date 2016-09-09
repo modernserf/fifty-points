@@ -1,7 +1,9 @@
 import React from "react"
+import { connect } from "react-redux"
 import { randomNormal, randomLogNormal } from "d3-random"
 // import { StyleSheet, css } from "aphrodite"
 import { CanvasBase } from "../CanvasBase"
+import { selectColors } from "../../data/colors"
 
 const randFrame = (() => {
     const randLog = randomLogNormal(0,0.5)
@@ -9,8 +11,9 @@ const randFrame = (() => {
     return () => randNormal() * randLog()
 })()
 
-function drawFrame (ctx, { width, height, lines }) {
-  ctx.fillStyle = "rgba(0,0,0, 0.2)"
+function drawFrame (ctx, props) {
+    const { height, lines, colorAlpha, backgroundColorAlpha }  = props
+  ctx.fillStyle = backgroundColorAlpha(0.2)
   ctx.fillRect(0,0,10000,1000)
   const spacing = 8
 
@@ -23,7 +26,7 @@ function drawFrame (ctx, { width, height, lines }) {
     const startX = basis + lines[i][0] + spacing
     const nextLine = []
 
-    ctx.strokeStyle = `rgba(100,255,0,0.5)`
+    ctx.strokeStyle = colorAlpha(0.5)
     ctx.beginPath()
     ctx.moveTo(startX, height)
 
@@ -74,12 +77,13 @@ const height = 700
 
 const lines = genLines(30, width, height)
 
-export class CopyLines extends React.Component {
-  render () {
+export const CopyLines = connect(selectColors)(
+({ colorAlpha, backgroundColorAlpha }) => {
     return <div>
       <CanvasBase lines={lines}
         drawFrame={drawFrame}
+        colorAlpha={colorAlpha}
+        backgroundColorAlpha={backgroundColorAlpha}
         width={width} height={height} />
     </div>
-  }
-}
+})

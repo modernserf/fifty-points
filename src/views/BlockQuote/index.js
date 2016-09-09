@@ -1,21 +1,23 @@
 import React from "react"
-import { StyleSheet, css } from "aphrodite/no-important"
+import { connect } from "react-redux"
+import { css } from "aphrodite/no-important"
+import { makeStyles, selectColors } from "../../data/colors"
 
-const greenHi = "rgba(100,255,0,1)"
-
-const S = StyleSheet.create({
+const colorStyles = makeStyles({
   container: {
     padding: 10,
-    backgroundColor: "black",
-    color: greenHi,
+    backgroundColor: "backgroundColor",
+    color: "color",
     fontSize: 72,
   },
 })
 
-export function BlockQuote ({ children, }) {
+export const BlockQuote = connect(selectColors)(
+({ children, colorMode }) => {
+    const S = colorStyles[colorMode]
     return (
       <blockquote className={css(S.container)}>
         {children}
       </blockquote>
     )
-}
+})

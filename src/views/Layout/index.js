@@ -1,5 +1,7 @@
 import React from "react"
+import { connect } from "react-redux"
 import { StyleSheet, css } from "aphrodite"
+import { selectColors } from "../../data/colors"
 
 const S = StyleSheet.create({
   container: {
@@ -8,7 +10,7 @@ const S = StyleSheet.create({
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   contentWrap: {
     flexGrow: 1,
@@ -17,7 +19,6 @@ const S = StyleSheet.create({
   },
   frontRow: {
     padding: 20,
-    color: `rgb(100,255,0)`,
     fontFamily: "sans-serif",
   }
 })
@@ -36,20 +37,8 @@ const keyCodes = {
 const backKeys = new Set([keyCodes.pgUp, keyCodes.left, keyCodes.up])
 const nextKeys = new Set([keyCodes.pgDn, keyCodes.right, keyCodes.down])
 
-export class Layout extends React.Component {
-  constructor() {
-    super()
-    this.onNext = this.onNext.bind(this)
-  }
-  onNext (e) {
-    const { goBack, goForward } = this.props.route
-    const { location } = this.props
-    if (backKeys.has(e.keyCode)) {
-      goBack(location)
-    } else if (nextKeys.has(e.keyCode)) {
-      goForward(location)
-    }
-  }
+export const Layout = connect(selectColors)(
+class extends React.Component {
   componentDidMount () {
     window.addEventListener("keydown",this.onNext)
     this.logNotes()
@@ -60,6 +49,15 @@ export class Layout extends React.Component {
   componentWillUnmount () {
     window.removeEventListener("keydown", this.onNext)
   }
+  onNext = (e) => {
+    const { goBack, goForward } = this.props.route
+    const { location } = this.props
+    if (backKeys.has(e.keyCode)) {
+      goBack(location)
+    } else if (nextKeys.has(e.keyCode)) {
+      goForward(location)
+    }
+  }
   logNotes () {
     console.log(`%c ----------- %c
        ${this.props.routes[1].notes} \n\n\n\n`,
@@ -67,9 +65,10 @@ export class Layout extends React.Component {
        "background-color: white")
   }
   render () {
-    const { children, routes } = this.props
+    const { children, routes, color, backgroundColor } = this.props
+    const style = { color, backgroundColor }
     return (
-      <div className={css(S.container)}>
+      <div className={css(S.container)} style={style}>
         <div className={css(S.contentWrap)}>
           {children}
         </div>
@@ -79,4 +78,4 @@ export class Layout extends React.Component {
       </div>
     )
   }
-}
+})
