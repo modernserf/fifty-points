@@ -2,7 +2,7 @@ import "./style.css"
 import React from "react"
 import { createStore } from "redux"
 import { Provider } from "react-redux"
-import { Router, hashHistory as history } from "react-router"
+import { HashRouter, Match, Miss, Redirect } from "react-router"
 import { Layout } from "./Layout"
 import { Intro } from "./Intro"
 import { Responsive } from "./Responsive"
@@ -44,51 +44,47 @@ const childRoutes = [
     component: Intro,
     notes: `
       Last spring, my partner and I took a train upstate to Beacon for the weekend. We visited a museum called Dia:Beacon that specializes in large installations.`,
-    frontRow: `
-      Hello everyone in the front row! Don't tell anyone but you get some *bonus content*`
   },
   {
     component: () =>
       <Carousel images={img.serra} />,
     notes: `
       Its difficult to convey this experience with photographs. Its one thing to look at a Richard Serra sculpture, but its another thing altogether to confront its enormity in person and walk around inside of it.`,
-    frontRow: `
-      I don't believe in the supernatural but our AirBnB had an intense horror movie vibe to it.`
   },
   {
     component: () => <Carousel images={[img.bourgeois]} />,
     notes: `
       Imagine turning a corner in their shadowy attic and encountering this sculpture by Louise Bourgeois.`,
-    frontRow: `
-      We arrived at 1:30 PM and the owner told us that she had just put her child to bed, which seemed a little odd.`
   },
   {
     component: () => <Carousel images={[img.ryman]} />,
     notes: `
       Not everything was this "in your face". Some of it was subtle and textural, almost to the point of parody.`,
-    frontRow: `
-      Our room was decorated with taxidermy, saw blades, and mannequin limbs, which the owner said she bought from Mia Farrow.`
   },
   {
     component: () => <Carousel images={img.lewittDia} />,
     notes: `
       But it wasn't all giant walls of rust and white-on-white collages. There was a lot of art that connected on a more intellectual than visceral level.`,
-    frontRow: `
-      There was also a stack of unlabelled casette tapes in the room, which I can only _assume_ were recordings of demonic summoning incantations.`
   },
   {
     component: () => <Carousel images={[img.wd136]} />,
     notes: `
       A lot of these were made by an artist named Sol LeWitt. Now, Sol LeWitt was an American artist who worked in the mid-to-late 20th century and specialized in abstract wall drawings and structures.`,
-    frontRow: `We heard low rumblings at night, but never saw her child.`
   },
   {
     component: () =>
       <Carousel images={[img.lwCertificate]} contain/>,
     notes: `
       LeWitt didn't think of himself as a sculptor or an illustrator; in many cases he didn't touch the materials at all. Instead, he wrote the instructions to generate them.`,
-    frontRow: `
-      Beacon, like a lot of touristy small towns, had a surprising number of incense and crystal shops.`
+  },
+  {
+      component: () => <CodeBlock>
+        <p>The ideas need not be complex.</p>
+        <p>Most ideas that are successful are ludicrously simple.</p>
+        <p><CodeHighlight>Successful ideas generally have the appearance of simplicity because they seem inevitable.</CodeHighlight></p>
+      </CodeBlock>,
+      notes: `
+        And these were not even complex instructions -- most of the algorithms he wrote were describable in a single paragraph; many of them were only a sentence. Though he didn't care for the term, his work is often described as minimalist.`
   },
   {
     component: () => <CodeBlock>
@@ -100,23 +96,59 @@ const childRoutes = [
       <p>All of the points should be connected by straight lines.</p>
     </CodeBlock>,
     notes: `
-      One that stood out for me is wall drawing #118. The instructions, for those of you in the back, are: "On a wall surface, any continuous stretch of wall, using a hard pencil, place fifty points at random. The points should be evenly distributed over the area of the wall. All of the points should be connected by straight lines."`,
-    frontRow: `
-      It seemed that, if demons and ghosts were part of mundane, everyday life, the town would change very little.`
+        Despite their simplicity, a number of his pieces have stuck with me since that trip to Dia:Beacon. One that particularly stands out is wall drawing #118. The instructions, for those of you in the back, are: "On a wall surface, any continuous stretch of wall, using a hard pencil, place fifty points at random. The points should be evenly distributed over the area of the wall. All of the points should be connected by straight lines."`,
   },
   {
     component: () => <Carousel images={img.wd118} />,
     notes: `
       And here's a couple of different _implementations_ of this -- one at MOMA, one a Dia, one in somebody's home. Each one is a little bit different, but they're all recognizably instances of the same concept.`,
-    frontRow: `
-      In a world where malevolent spirits are common, would haunted places become poor neighborhoods? Would exorcisms be available only to the rich?`
   },
+  {
+    component: () => <CodeBlock><pre>{`
+for (var i = 0; i < points.length; i++) {
+    for (var j = i + 1; j < points.length; j++) {
+        const [x1, y1] = points[i]
+        const [x2, y2] = points[j]
+
+        ctx.beginPath()
+        ctx.moveTo(x1, y1)
+        ctx.lineTo(x2, y2)
+        ctx.stroke()
+        ctx.closePath()
+    }
+}`}</pre></CodeBlock>,
+    notes: `
+        Translating to code seemed straightforward at first. I'm using canvas here; this is a slightly less fussy version of the code that I'm actually using.`
+  },
+  {
+      component: () => <CodeBlock highlight><pre>{`
+for (var i = 0; i < points.length; i++) {`}<CodeHighlight>{`
+    for (var j = i + 1; j < points.length; j++) {`}</CodeHighlight>{`
+        const [x1, y1] = points[i]
+        const [x2, y2] = points[j]
+
+        ctx.beginPath()
+        ctx.moveTo(x1, y1)
+        ctx.lineTo(x2, y2)
+        ctx.stroke()
+        ctx.closePath()
+    }
+}`}</pre></CodeBlock>,
+    notes: `
+        There's nothing all that surprising here -- I'm saving some cycles by only drawing the lines in one direction, I hope my high school CS teacher is proud of me.`
+    },
   {
     component: Static,
     notes: `
-      And this is my own interpretation of it. Now I'm breaking the rules a little bit -- no pencil has touched this wall -- but it captures the spirit. Take a close look at this, because this instance, like a snowflake, will never appear again.`,
-    frontRow: `
-      Seems like a lost opportunity for social commentary in the new Ghostbusters movie.`
+        And this is what it draws. I'm breaking the rules a little bit -- no pencil has touched this wall -- but I think it captures the spirit.
+        Take a close look at this, because this instance, like a snowflake, will never appear again.`,
+  },
+  {
+      component: () => <BlockQuote>
+        <p>Why is this "Art"?</p>
+      </BlockQuote>,
+    notes: `
+        Why is this art? Because it looks cool? Because its a perfect visualization of n log n algorithms? Because it represents how every individual is connected? Well -- at the risk of being all "you have to listen to the notes she's _not_ playing" -- for me, the most interesting parts of LeWitt's wall drawings are the questions that they raise.`
   },
   {
     component: () => <CodeBlock>
@@ -150,7 +182,7 @@ const childRoutes = [
   {
     component: CanvasPoints3D,
     notes: `
-      Does a continuous stretch of wall include corners? By the way, if any of you are good at webGL I'd love to see what this would look like on the inside of a cylinder or something like that.`,
+      Does a continuous stretch of wall include corners?`,
   },
   {
     component: () => <CodeBlock highlight>
@@ -276,26 +308,34 @@ const childRoutes = [
     notes: `
       Thank you.`
   }
-].map((route, i) => ({...route, path: `/${i + 1}`}))
+].map((route, i) => ({ ...route, id: i + 1 }))
 
-const routes = {
-    path: "/", indexRoute: { onEnter: (_, to) => to("/1") },
-    component: Layout,
-    goBack, goForward, childRoutes
+const notesMap = childRoutes.reduce((m, { id, notes }) => {
+    m[id] = notes; return m
+}, {})
+
+function App () {
+    const routes = childRoutes.map(({ id, component, notes }) =>
+        <Match key={id} pattern={`/${id}`} component={component}/>
+    )
+
+    return (
+        <HashRouter>
+            <div>
+                <Match exact pattern="/:id" render={({ params: { id } }) => (
+                    <Layout id={id} notes={notesMap[id]}>
+                        {routes}
+                        <Miss component={() => <Redirect to="/1" />} />
+                    </Layout>
+                )} />
+                <Miss component={() => <Redirect to="/1" />} />
+            </div>
+        </HashRouter>
+    )
 }
 
 export const main = (
     <Provider store={store}>
-        <Router history={history} routes={routes} />
+        <App />
     </Provider>
 )
-
-function goBack (location) {
-  const index = Number(location.pathname.split("/")[1])
-  history.push(`/${Math.max(1, index - 1)}`)
-}
-
-function goForward (location) {
-  const index = Number(location.pathname.split("/")[1])
-  history.push(`/${Math.min(childRoutes.length, index + 1)}`)
-}

@@ -15,7 +15,7 @@ function drawFrame (ctx, props) {
     const alpha = Math.random() * 0.2
     ctx.strokeStyle = colorAlpha(alpha)
 
-    for (var j = i; j < ln; j++) {
+    for (var j = i + 1; j < ln; j++) {
       const start = points[i]
       const end = points[j]
 

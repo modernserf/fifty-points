@@ -1,13 +1,9 @@
 # "fifty points at random"
 
 ## TODO
-- spooky 3D move
-- walk through source code
 - more on "who is the artist" & auteur theory
-- more on algorithm + randomness as creativity
+- more on games, algorithm + randomness as creativity
 - audience participation version
-
-
 
 "fifty points at random"
 ========================
