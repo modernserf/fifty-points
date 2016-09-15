@@ -19,20 +19,35 @@ import { NoSurprises } from "./NoSurprises"
 import * as img from "../img"
 
 const initState = {
-    colorMode: "light",
+    colorMode: "dark",
     showNotes: false,
 }
 
 function reducer (state = initState, { type, payload }) {
     switch (type) {
-    case "setColorMode":
-        return { ...state, colorMode: payload }
+    case "darkMode":
+        return { ...state, colorMode: "dark" }
+    case "lightMode":
+        return { ...state, colorMode: "light" }
+    // TODO: enable these
+    case "showNotes":
+        return { ...state, showNotes: true }
+    case "hideNotes":
+        return { ...state, showNotes: false }
     default:
         return state
     }
 }
 
 const store = createStore(reducer)
+
+// usage: command.darkMode -> dispatch({ type: "darkMode" })
+window.command = new Proxy({}, {
+    get (_, key) {
+        store.dispatch({ type: key })
+    }
+})
+
 
 const childRoutes = [
   {
@@ -59,7 +74,7 @@ const childRoutes = [
   {
     component: () => <Carousel images={[img.ryman]} />,
     notes: `
-      Not everything was this "in your face". Some of it was subtle and textural, almost to the point of parody.`,
+      Not everything was this "in your face". Some of it, like this collection of Robert Ryman's work, was subtle and textural, almost to the point of parody.`,
   },
   {
     component: () => <Carousel images={img.lewittDia} />,
@@ -140,14 +155,18 @@ for (var i = 0; i < points.length; i++) {`}<CodeHighlight>{`
   {
     component: Static,
     notes: `
-        And this is what it draws. I'm breaking the rules a little bit -- no pencil has touched this wall -- but I think it captures the spirit.
-        Take a close look at this, because this instance, like a snowflake, will never appear again.`,
+        And this is what it draws. I'm breaking the rules a little bit -- no pencil has touched this wall -- but I think it captures the spirit.`,
+  },
+  {
+      component: Static,
+      notes: `
+        And here's another one. If I refresh the page, it'll generate another. Take a close look at this, because this instance, like a snowflake, will never appear again.`
   },
   {
       component: () => <BlockQuote>
         <p>Why is this "Art"?</p>
       </BlockQuote>,
-    notes: `
+      notes: `
         Why is this art? Because it looks cool? Because its a perfect visualization of n log n algorithms? Because it represents how every individual is connected? Well -- at the risk of being all "you have to listen to the notes she's _not_ playing" -- for me, the most interesting parts of LeWitt's wall drawings are the questions that they raise.`
   },
   {
@@ -235,7 +254,7 @@ for (var i = 0; i < points.length; i++) {`}<CodeHighlight>{`
   },
   {
     component: () => <CodeBlock highlight>
-      <p><CodeHighlight>The first drafter draws a not straight vertical line as long as possible.</CodeHighlight></p>
+      <p>The first drafter draws a <CodeHighlight>not straight</CodeHighlight> vertical line <CodeHighlight>as long as possible.</CodeHighlight></p>
       <p>The second drafter draws a line next to the first one, trying to copy it.</p>
       <p>The third drafter does the same, as do as many drafters as possible.</p>
       <p>Then the first drafter, followed by the others, copies the last line drawn until both ends of the wall are reached.</p>
@@ -263,12 +282,10 @@ for (var i = 0; i < points.length; i++) {`}<CodeHighlight>{`
   {
     component: NoSurprises,
     notes: `
-      So why am I up here? What about LeWitt's work is so special that I have to tell you all about it? I think that I find this so fascinating because its clearly a sibling to writing software, but its goals are almost antithetical to what we do for work. The soul of the art -- the ambiguity,   surprises, edge cases -- are the kinds of things we try to stamp out in most of the code we write.
+      So why am I up here? What about LeWitt's work is so special that I have to tell you all about it? I think that I find this so fascinating because its clearly a sibling to writing software, but its goals are almost antithetical to what we do for work. The soul of the art -- the ambiguity, surprises, edge cases -- are the kinds of things we try to stamp out in most of the code we write.
 
       When we write software, we're working with goals in mind and we change our code -- our process -- to better fit those goals. But LeWitt's art is all about following the process wherever it goes; adhering to the process _is_ the goal. The art is an emergent behavior of the process.`
-      // something about games as art / code as art
   },
-  // How are algorithms like or unlike humans? How does machine randomness differ or relate to human randomness? The "randomness" in games, if done effectively feels to the user like a creative partner
   {
     component: () => <BlockQuote>
       <p>“The idea becomes a machine that makes the art.”</p>
@@ -283,22 +300,38 @@ for (var i = 0; i < points.length; i++) {`}<CodeHighlight>{`
     notes: `
       What about something like Google's DeepDream? Again, a lot more complex than something like wall drawing #118 but its still "just an algorithm." But the lines are blurred -- is the art created _with_ DeepDream, or is the art created _by_ DeepDream? At the very least, we need to acknowledge that the algorithms, the process for creating the art, is more than a tool; its a creative partner.`
   },
-  // richard serra isnt making his art all by himself either
-  // auteur theory -- leWitt disrupts this with his "open" work
   {
     component: Collaboration,
     notes: `
       Through this lens, we can see LeWitt's work as a network of collaborations. All parties involved -- author, drafters, the process itself -- are necessary for the creation of the art.
 
-      One way to look at this is through the lens of the performing arts, with LeWitt as the composer or the playwright and the drafters as performers. The performers find new ways to interpret the art that the author could never have intended; the art inspires performances the performers didn't know they had in them.
-
-      But I like to think about LeWitt's art through the lens of games. Not just computer games, but games in general -- board games, party games, sports. The people who write the rules for these games have some ideas about what play might look like, but games are fundamentally about how each playthrough is unique, how the game as a "machine for play" creates surprises and what the players can do within the given rules.`
+      One way to look at this is through the lens of the performing arts, with LeWitt as the composer or the playwright and the drafters as performers. The performers find new ways to interpret the art that the author could never have intended; the art inspires performances the performers didn't know they had in them.`
+  },
+  // richard serra isnt making his art all by himself either
+  // auteur theory -- leWitt disrupts this with his "open" work
+  {
+      component: () => <div>TODO: asteroids?</div>,
+      notes: `
+        Another lens for considering LeWitt's art is the context of games. Though there are many cases where our goals as programmers seem like the opposite of LeWitt's, in game development they're often aligned. The whole idea of "ludic narratives" is that computer games are a form of collaborative storytelling; and while game's author can _create story possibilities_, the story itself is out of their hands. The narrative of a game is told through the player's interactions with the game's mechanics -- its scripted behaviors, its AI, its randomness, even its bugs. Just as LeWitt saw his work as "machines for art", games can be seen as "machine for play" that create fun and surprise witin the universe of the game's rules.`
+  },
+  // How are algorithms like or unlike humans? How does machine randomness differ or relate to human randomness? The "randomness" in games, if done effectively feels to the user like a creative partner
+  {
+      component: () =>
+        <div>TODO: wall drawing 118, but superimposed over a world map</div>,
+    notes: `
+        But its not just games. As much as we may try to eliminate ambiguity and emergent behavior, there are some places where its an absolutely essential component of our work. We often think of emergent behavior in pathological terms -- domino effects and cascading failures -- but emergent systems aren't inherently chaotic or failure-prone. The diffusion of control and the emergent behavior of the internet are what make it resillient.`
   },
   {
     notes: `
-      When I think about LeWitt's art, I think about how the software I write could embrace that sense of play. I don't mean that in the hollow sense that "gamification" evokes; I'm talking about frameworks for creative exploration. The software that made me who I am -- Kid Pix, ResEdit, HyperCard -- they're not toys or games but they allow for play and performance. And there are HyperCard stacks that Bill Atkinson could have never imagined, which are nevertheless unmistakably HyperCard stacks; the tool is the medium.
-
-      We have the ability to create those kinds of experiences with the software we write; even in line-of-business apps we can create tools that feel like collaborators. But in order to do this, we need to embrace uncertainty and unpredictability; we need to accept that the most compelling uses of our software will be the kind we can't predict. And in doing so, we need to design systems that are robust because of their simplicity, not because we've exhaustively filed down all the sharp edges.`
+        And ambiguous specifications enable diverse implementations. Wall drawing 118's unspecifed proportions are a _feature_ -- for one, they let me give this same talk in 1024x768. When I think of the best interfaces I've encountered -- both GUIs or APIs -- I don't typically think of those with the most features or the most detailed requirements; I think of the ones that are the simplest or the most flexible. The designers of these interfaces didn't try to anticipate my needs; they designed interfaces that were loose enough to serve needs they couldn't anticipate.`
+  },
+  {
+      notes: `
+          When I think about LeWitt's art, I think about how the software I write could share those qualities -- collaboration, play, simplicity. I think about how my software could be an open-ended framework for creative exploration. The software that made me who I am -- Kid Pix, ResEdit, HyperCard -- they're not toys or games but they allow for play and performance. And there are HyperCard stacks that Bill Atkinson could have never imagined, which are nevertheless unmistakably HyperCard stacks; the tool is the medium is the creative partner.`
+  },
+  {
+      notes: `
+        We have the ability to create those kinds of experiences with the software we write; even in line-of-business apps we can create tools that feel like collaborators. But in order to do this, we need to embrace uncertainty and unpredictability; we need to accept that the most compelling uses of our software will be the kind we can't predict. And in doing so, we need to design systems that are robust because of their simplicity, not because we've exhaustively filed down all the sharp edges.`
   },
   {
     component: () => <BlockQuote>
@@ -314,9 +347,12 @@ const notesMap = childRoutes.reduce((m, { id, notes }) => {
     m[id] = notes; return m
 }, {})
 
+const defaultComponent = () => <div></div>
+
 function App () {
     const routes = childRoutes.map(({ id, component, notes }) =>
-        <Match key={id} pattern={`/${id}`} component={component}/>
+        <Match key={id} pattern={`/${id}`}
+            component={component || defaultComponent}/>
     )
 
     return (

@@ -11,9 +11,9 @@ const S = StyleSheet.create({
   },
 })
 
-const staticPoints = takePoints(Math.random)(50)
-
 export function Static () {
+    const staticPoints = takePoints(Math.random)(50)
+
   return (
     <div className={css(S.container)}>
       <CanvasPoints width={1000} height={500}

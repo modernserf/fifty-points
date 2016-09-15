@@ -1,9 +1,10 @@
 # "fifty points at random"
 
 ## TODO
+- full screen graphics
 - more on "who is the artist" & auteur theory
-- more on games, algorithm + randomness as creativity
 - audience participation version
+- fix indentation
 
 "fifty points at random"
 ========================
