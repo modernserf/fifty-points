@@ -91,9 +91,7 @@ export const Layout = compose([
         <div className={css(S.contentWrap)}>
           {children}
         </div>
-        <div className={css(S.frontRow)}>
-          <LogNotes>{notes}</LogNotes>
-        </div>
+      <LogNotes>{notes}</LogNotes>
       </div>
     )
   }

@@ -9,6 +9,7 @@ import { selectColors } from "../../data/colors"
 const S = StyleSheet.create({
   graphic: {
     fill: "none",
+    transform: `scale(1.9)`
   },
   text: {
     textAnchor: "middle",
@@ -22,7 +23,7 @@ const mid = 125
 export const Collaboration = connect(selectColors)(
 ({ color }) => {
   return (
-    <svg width={1000} height={500} style={{margin: "80px auto"}}>
+    <svg width={1920} height={1080} style={{margin: "80px auto"}}>
       <g className={css(S.graphic)} style={{ stroke: color }}>
         <g>
           <Artist />

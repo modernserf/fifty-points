@@ -8,7 +8,7 @@ const colorStyles = makeStyles({
         backgroundColor: "backgroundColor",
         color: "color",
         padding: 10,
-        fontSize: 36,
+        fontSize: 48,
     },
     dimmed: {
         color: ({ color }) => rgba(color)(0.5),

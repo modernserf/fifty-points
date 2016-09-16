@@ -4,7 +4,7 @@ import { StyleSheet, css } from "aphrodite/no-important"
 const S = StyleSheet.create({
   container: {
     width: "100%",
-    height: 1000,
+    height: 1080,
   },
   image: {
     position: "absolute",

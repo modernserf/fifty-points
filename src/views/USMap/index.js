@@ -9,9 +9,11 @@ const S = StyleSheet.create({
   container: {
     margin: "0 auto",
     overflow: "hidden",
-    width: 1000,
+    width: 1920,
+    height: 1080,
   },
   map: {
+      pointerEvents: "none",
       position: "absolute",
       width: "100%",
       height: "100%",
@@ -22,7 +24,7 @@ const S = StyleSheet.create({
 export const USMap = connect(selectColors)(function ({ color }) {
   return (
     <div className={css(S.container)}>
-        <HumanPoints key="usmap"/>
+        <HumanPoints dataID="usmap"/>
         <div className={css(S.map)}>
             <Map color={color} />
         </div>

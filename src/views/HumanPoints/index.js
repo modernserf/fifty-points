@@ -3,18 +3,18 @@ import { CanvasPoints } from "../CanvasPoints"
 
 export class HumanPoints extends React.Component {
   static defaultProps = {
-    width: 1000,
-    height: 500,
-    key: "humanPoints"
+    width: 1920,
+    height: 1080,
+    dataID: "humanPoints"
   };
-  constructor ({ key }) {
+  constructor ({ dataID }) {
     super()
     this.state = {
-      points: this.loadPoints(key)
+      points: this.loadPoints(dataID)
     }
   }
-  loadPoints (key) {
-    const points = window.localStorage.getItem(key)
+  loadPoints (dataID) {
+    const points = window.localStorage.getItem(dataID)
     if (!points) { return [] }
     return JSON.parse(points)
   }
@@ -26,7 +26,7 @@ export class HumanPoints extends React.Component {
     this.setState({
       points: nextPoints
     })
-    window.localStorage.setItem(this.props.key, JSON.stringify(nextPoints))
+    window.localStorage.setItem(this.props.dataID, JSON.stringify(nextPoints))
   }
   render () {
     const { width, height } = this.props

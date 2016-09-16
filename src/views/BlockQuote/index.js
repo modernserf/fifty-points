@@ -8,7 +8,7 @@ const colorStyles = makeStyles({
     padding: 10,
     backgroundColor: "backgroundColor",
     color: "color",
-    fontSize: 72,
+    fontSize: 120,
   },
 })
 

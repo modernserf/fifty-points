@@ -5,12 +5,12 @@ import { CanvasBase } from "../CanvasBase"
 import { takePoints, takePoisson, takeBestCandidate } from "../../data/points"
 import { selectColors } from "../../data/colors"
 
-const width = 280
-const height = 280
+const width = 500
+const height = 500
 
 const S = StyleSheet.create({
   label: {
-    fontSize: 15,
+    fontSize: 24,
     textTransform: "uppercase",
   },
   block: {
@@ -22,6 +22,7 @@ const S = StyleSheet.create({
     flexWrap: "wrap",
     listStyleType: "none",
     justifyContent: "center",
+    alignItems: "center",
   },
   wrap: {
     width,

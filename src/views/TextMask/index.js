@@ -31,7 +31,7 @@ function TextMask ({ width, height, backgroundColor, style }) {
           <rect className={css(S.maskBase)}
             width={width} height={height}/>
           <g className={css(S.textGroup)}
-            transform="translate(125,100)">
+            transform="scale(2,2) translate(125,100)">
             <TextBody/>
           </g>
         </mask>

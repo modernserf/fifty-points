@@ -27,7 +27,7 @@ export class CanvasBase extends React.Component {
   render () {
     return (
       <canvas ref={(el) => this.initCanvas(el)}
-        width={1500} height={1000}></canvas>
+        width={1920} height={1080}></canvas>
     )
   }
 }

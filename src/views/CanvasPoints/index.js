@@ -9,7 +9,7 @@ function drawFrame (ctx, props) {
   const ln = points.length
 
   ctx.fillStyle = backgroundColorAlpha(0.2)
-  ctx.fillRect(0,0,1500,1000)
+  ctx.fillRect(0,0,1920,1080)
 
   for (var i = 0; i < ln; i++) {
     const alpha = Math.random() * 0.2

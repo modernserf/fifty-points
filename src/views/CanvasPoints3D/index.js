@@ -183,7 +183,7 @@ class extends React.Component {
           <Slider key="rotation" min={0} max={Math.PI * 2}/>
           <Slider key="rotation_rate" min={-3} max={3} />
         </ControlPanel>
-        <GLCanvas width={1000} height={800}
+        <GLCanvas width={1920} height={1080}
           component={Test3D} childProps={childProps} />
       </div>
     )

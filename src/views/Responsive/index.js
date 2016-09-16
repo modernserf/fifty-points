@@ -12,8 +12,8 @@ export class Responsive extends React.Component {
   constructor () {
     super()
     this.state = {
-      width: 800,
-      height: 500,
+      width: 1920,
+      height: 1080,
       points: genPoints(50)
     }
   }
@@ -22,8 +22,8 @@ export class Responsive extends React.Component {
   }
   setSize () {
     this.setState({
-      width: randomInt(200, 1200),
-      height: randomInt(200, 800),
+      width: randomInt(200, 1920),
+      height: randomInt(200, 1080),
     })
   }
   render () {

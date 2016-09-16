@@ -19,8 +19,8 @@ const genPoints = takePoints(Math.random)
 
 export class Intro extends React.Component {
   static defaultProps = {
-    width: 1000,
-    height: 500,
+    width: 1920,
+    height: 1080,
   };
   constructor () {
     super()

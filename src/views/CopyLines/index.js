@@ -14,7 +14,7 @@ const randFrame = (() => {
 function drawFrame (ctx, props) {
     const { height, lines, colorAlpha, backgroundColorAlpha }  = props
   ctx.fillStyle = backgroundColorAlpha(0.2)
-  ctx.fillRect(0,0,10000,1000)
+  ctx.fillRect(0,0,1920,1080)
   const spacing = 8
 
   const noise = Array(height).fill(0).map(randFrame)
@@ -57,7 +57,7 @@ function genLines (personCount, width, height) {
 
   // const spacing = 3
   const rand = randomNormal(0, 0.2)
-  return Array(200).fill(null)
+  return Array(250).fill(null)
     .map((_, i) => {
       const arr = []
       const h = heights[i % personCount] + Math.floor(Math.random() * 20)
@@ -72,8 +72,8 @@ function genLines (personCount, width, height) {
     })
 }
 
-const width = 1000
-const height = 700
+const width = 1920
+const height = 1080
 
 const lines = genLines(30, width, height)
 

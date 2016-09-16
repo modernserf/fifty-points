@@ -7,7 +7,7 @@ const S = StyleSheet.create({
   container: {
     margin: "0 auto",
     overflow: "hidden",
-    width: 1000,
+    width: 1920,
   },
 })
 
@@ -16,7 +16,7 @@ export function Static () {
 
   return (
     <div className={css(S.container)}>
-      <CanvasPoints width={1000} height={500}
+      <CanvasPoints width={1920} height={1080}
         points={staticPoints}/>
     </div>
   )
