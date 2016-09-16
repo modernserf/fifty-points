@@ -18,6 +18,8 @@ import wd118_3 from "./wd-118-3.jpg"
 import wd123 from "./wd-123.jpg"
 import wd136 from "./wd-136.jpg"
 
+import asteroids from "./asteroids.png"
+
 const serra = [serra1, serra2, serra3, serra4]
 const lewittDia = [lewittDia1, lewittDia2, lewittDia3]
 const wd118 = [wd118_1, wd118_2, wd118_3]
@@ -32,4 +34,5 @@ export {
   wd123,
   wd136,
   deepDream,
+  asteroids,
 }

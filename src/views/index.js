@@ -16,6 +16,7 @@ import { Random } from "./Random"
 import { Collaboration } from "./Collaboration"
 import { BlockQuote } from "./BlockQuote"
 import { NoSurprises } from "./NoSurprises"
+import { USMap } from "./USMap"
 import * as img from "../img"
 
 const initState = {
@@ -310,22 +311,31 @@ for (var i = 0; i < points.length; i++) {`}<CodeHighlight>{`
   // richard serra isnt making his art all by himself either
   // auteur theory -- leWitt disrupts this with his "open" work
   {
-      component: () => <div>TODO: asteroids?</div>,
+      component: () => <Carousel images={[img.asteroids]}/>,
       notes: `
         Another lens for considering LeWitt's art is the context of games. Though there are many cases where our goals as programmers seem like the opposite of LeWitt's, in game development they're often aligned. The whole idea of "ludic narratives" is that computer games are a form of collaborative storytelling; and while game's author can _create story possibilities_, the story itself is out of their hands. The narrative of a game is told through the player's interactions with the game's mechanics -- its scripted behaviors, its AI, its randomness, even its bugs. Just as LeWitt saw his work as "machines for art", games can be seen as "machine for play" that create fun and surprise witin the universe of the game's rules.`
   },
   // How are algorithms like or unlike humans? How does machine randomness differ or relate to human randomness? The "randomness" in games, if done effectively feels to the user like a creative partner
   {
-      component: () =>
-        <div>TODO: wall drawing 118, but superimposed over a world map</div>,
+      component: USMap,
     notes: `
         But its not just games. As much as we may try to eliminate ambiguity and emergent behavior, there are some places where its an absolutely essential component of our work. We often think of emergent behavior in pathological terms -- domino effects and cascading failures -- but emergent systems aren't inherently chaotic or failure-prone. The diffusion of control and the emergent behavior of the internet are what make it resillient.`
   },
   {
+      component: () => <BlockQuote>
+        <p>Ambiguous specifications</p>
+        <p>enable</p>
+        <p>diverse implementations.</p>
+      </BlockQuote>,
     notes: `
         And ambiguous specifications enable diverse implementations. Wall drawing 118's unspecifed proportions are a _feature_ -- for one, they let me give this same talk in 1024x768. When I think of the best interfaces I've encountered -- both GUIs or APIs -- I don't typically think of those with the most features or the most detailed requirements; I think of the ones that are the simplest or the most flexible. The designers of these interfaces didn't try to anticipate my needs; they designed interfaces that were loose enough to serve needs they couldn't anticipate.`
   },
   {
+      component: () =>
+          <BlockQuote>
+            <p>open-ended framework</p>
+            <p>for creative exploration</p>
+          </BlockQuote>,
       notes: `
           When I think about LeWitt's art, I think about how the software I write could share those qualities -- collaboration, play, simplicity. I think about how my software could be an open-ended framework for creative exploration. The software that made me who I am -- Kid Pix, ResEdit, HyperCard -- they're not toys or games but they allow for play and performance. And there are HyperCard stacks that Bill Atkinson could have never imagined, which are nevertheless unmistakably HyperCard stacks; the tool is the medium is the creative partner.`
   },
