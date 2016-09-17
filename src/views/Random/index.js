@@ -39,7 +39,7 @@ function drawFrame (ctx, props) {
   const t = Math.PI * 2
 
   ctx.fillStyle = backgroundColorAlpha(1)
-  ctx.fillRect(0,0,300,300)
+  ctx.fillRect(0,0,width + 100,height + 100)
 
   for (var i = 0; i < ln; i++) {
     const alpha = Math.random() * 0.2 + 0.5

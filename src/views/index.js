@@ -42,19 +42,26 @@ function reducer (state = initState, { type, payload }) {
 
 const store = createStore(reducer)
 
-// usage: command.darkMode -> dispatch({ type: "darkMode" })
-window.command = new Proxy({}, {
-    get (_, key) {
-        store.dispatch({ type: key })
-    }
-})
-
+if (window.Proxy) {
+    // usage: command.darkMode -> dispatch({ type: "darkMode" })
+    window.command = new Proxy({}, {
+        get (_, key) {
+            store.dispatch({ type: key })
+        }
+    })
+}
 
 const childRoutes = [
   {
-    component: () => <BlockQuote>
+    component: () => <div style={{
+        position: "absolute",
+        width: 1920, height: 1080,
+        border: "10px solid red"
+    }}>
+    <BlockQuote>
       <p>test</p>
     </BlockQuote>
+    </div>
   },
   {
     component: Intro,
@@ -350,6 +357,15 @@ for (var i = 0; i < points.length; i++) {`}<CodeHighlight>{`
     </BlockQuote>,
     notes: `
       Thank you.`
+  },
+  {
+      component: () => <BlockQuote>
+        <p>vart.institute</p>
+        <p>Recreate Masterpieces of Modern Art with Javascript</p>
+        <p>solvingsol.com</p>
+      </BlockQuote>,
+      notes: `
+        I don't have enough time left for Q&A but I want to point out a few valuable resources. First is Jenn Schiffer's vart.institute -- vart is a series of explorable explanations on artists and their styles -- in the philosophical sense, not the deep-learning style transfer sense. For the deep learning stuff, you should check out Amy Cheng's talk "Masterpieces of Modern Art with Javascript" -- I guess Amy & I have a Deep Impact/Armageddon thing going on with Modern Art & JS but her talk is much much more technical than the one you just watched and you've gotta see it _if only_ for the Mondrian-flavored cellular automata. And finally, if you want to see more of sol lewitt's work in javascript, check out solvingsol.com.`
   }
 ].map((route, i) => ({ ...route, id: i + 1 }))
 
